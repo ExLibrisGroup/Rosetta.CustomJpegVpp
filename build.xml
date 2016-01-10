@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Rosetta.CustomeJpegVPP" basedir="." default="build-all">
+	<property file="build.properties" />
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**.jar" />
+	</path>
+	<target name="build-all" depends="clean, init, compile, build_jar" />
+	<target name="clean">
+		<echo>Cleaning the ${build.dir} and ${target.dir} directories</echo>
+		<delete dir="${build.dir}" />
+		<delete dir="${target.dir}" />
+	</target>
+	<target name="init" depends="clean">
+		<echo>Creating the ${build.dir} and ${target.dir} directories</echo>
+		<mkdir dir="${build.dir}/classes" />
+		<mkdir dir="${build.dir}/lib" />
+		<mkdir dir="${build.dir}/conf" />
+		<mkdir dir="${target.dir}" />
+	</target>
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/classes" debug="true"
+			includeantruntime="false">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	<target name="build_jar" depends="compile">
+		<echo> Build Custome Jpeg VPP jar </echo>
+		<jar destfile="${target.dir}/CustomeJpegVPP.jar"
+			basedir="${build.dir}/classes">
+			<fileset dir="${src.dir}" includes="**" excludes=" com/**" />
+			<manifest>
+				<attribute name="Main-Class"
+					value="com.exlibris.dps.delivery.vpp.jpeg.CustomizeJpgVpp" />
+			</manifest>
+		</jar>
+	</target>
+</project>
